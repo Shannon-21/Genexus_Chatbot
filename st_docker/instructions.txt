@@ -1,0 +1,31 @@
+You can create a docker container based in the Dockefile of this folder.
+In this case will pull the Python image.
+When build the container like:
+
+```bash
+docker build -t st_docker .
+```
+
+will create the container that set a python environment that install modules in 'requeriments.txt',
+will work in the /app directory,
+expose a port,
+and run the 'app.py' python script using streamlit run command.
+
+One time your container is built, you can run it using:
+
+```bash
+docker run -p 8501:8501 st_docker
+```
+
+This must show you a Network url to use your streamlit app in your browser.
+
+Note: you must rebuild the image each time you modify your python code.
+
+You can purge previus versions of the same image or cantainers such as:
+
+```bash
+docker ps -a
+docker stop <container_id> 
+docker rm <container_id>
+docker rm -f <image_id>
+```
