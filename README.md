@@ -8,7 +8,9 @@
 
 ---
 
-**Fecha**: 18/12/2023
+**Fechas**: 
+- primera entrega: 18/12/2023
+- segunda entrega: 20/02/2023
 
 **Estudiante**:
  - Giampaoli Fabio
@@ -20,26 +22,27 @@
 - Ariel D'Alessandro
 
 **Link a Google Colab**: 
-- https://colab.research.google.com/drive/1lpm_vQsMMsVcRcXwM6rprbxXDDlaFszO#scrollTo=5Dq3FE-9IlTr
+- [https://colab.research.google.com/drive/1lpm_vQsMMsVcRcXwM6rprbxXDDlaFszO#scrollTo=5Dq3FE-9IlTr](https://colab.research.google.com/drive/1lpm_vQsMMsVcRcXwM6rprbxXDDlaFszO#scrollTo=_cCagmvEfkJ-)
 
 ---
 
-## **Introducción**
+## **Resumen**
 
-Este proyecto consiste en la creación de un modelo de lenguaje como asistente para conversar
-con lenguaje natural sobre algún dominio de interés a elección, y la investigación de la
-posibilidad de convertirlo en un sistema multiagente que pueda conectar con diversas
-herramientas.
+Este proyecto consiste en la creación de un modelo de lenguaje como asistente para conversar con lenguaje natural sobre algún dominio de interés a alección, y la investigación de la posibilidad de convertirlo en un sistema multiagente que pueda conectar con diversas herramientas.
 
-En este caso, mi interés es que el agente sea experto en Genexus. Genexus es un entorno de
-desarrollo de software que mediante un lenguaje de programación simplificado e integraciones
-con otras herramientas, se puede generar código fuente para compilar y desplegar
-aplicaciones.
+En este caso, mi interés es que el agente sea experto en Genexus. Genexus en un entorno de desarrollo de software que mediante un lenguaje de programación simiplificado e integraciones con otras herramientas, se puede generar código fuente para compilar y desplegar aplicaciones.
 
-El objetivo es que el agente pueda tener a disposición la documentación oficial de Genexus
-para que pueda mantener una conversación al respecto como si Genexus fuera parte de su
-fuente de su conocimiento, para finalmente darle al usuario que interactúa la sensación de que
-el agente puede ayudar a resolver dudas y problemas relacionados.
+El objetivo es que el agente pueda tener a disposición la documentación oficial de Genexus para que pueda mantener una conversación al respecto como si Genexus fuera parte de su fuente de su conocimiento, para finalmente darle al usuario que interactua la sensación de que el agente puede ayudar a resolver dudas y problemas relacionados.
+
+El modelo conversacional alimentara su contexto mediante diferentes fuentes de datos. Las tres fuentes principales que tomara serán:
+
+- Wiki de Genexus: mediante extracción del texto de las páginas de la documentación oficial mediante técnicas de scrapping.
+- Cursos de Genexus: Genexus posee videos que enseñan desde los conceptos más básicos hasta conceptos y metodológias avanzadas. Los video son acompañados por documentos pdf como transcripciones de los videos.
+- WikiData: Es una base de conocimiento de grafos abierta de dominio general que dotará al modelo de conocimiento general de cualquier tópico en general.
+
+Hacia el final de este proyecto, la arquitectura del modelo conversacional luce como en el siguiente esquema:
+
+![image](https://github.com/Shannon-21/Genexus_Chatbot/assets/81629492/ca871139-878e-4196-831c-1a39f369bef9)
 
 --- 
 
@@ -47,43 +50,31 @@ el agente puede ayudar a resolver dudas y problemas relacionados.
 
 Este proyecto esta desarrollado en un entorno de Google Colab como una notebook de código Python.
 
-Para la ejecución del modelo se debe ejecutar de forma ordenada y secuencial todas y cada una de las celdas de codigo que definen funciones que el modelo utilizara.
+Para la ejecución del modelo se debe ejecutar de forma ordenada y secuencial aquellas secciones del cuaderno tituladas como "Acceso rápido" si el fin es solamente ejecutar el modelo conversacional.
 
 **Importante**: Notar que el cuaderno entregado utiliza el token de HuggingFace para poder utilizar el modelo de lenguaje mediante API.
-Debe ingresar este token personal en la variable correspondiente en la celda de codigo que lo requiere. (Desplegable 'Modelo de Lenguaje')
+Debe ingresar este token personal en la variable correspondiente o en el gestor de claves secretas del entorno de Google Colab en la celda de codigo que lo requiere. (Desplegable 'Modelo de clasificación')
 
-La celda final en el desplegable llamada 'Conversación' con este código:
+
+La ejecución de la ultima celda en el proyecto dara lugar inmediatamente debajo a un dialogo interactivo con el modelo experto en Genexus.
 
 ```python
-# inicializa el contexto y rol
-global_context = []
-rol = 'You are an Genexus expert programer that always responds using the provided context with brief responses and short pieces of code.'
-first_question = True
-
-# iteracion de la conversacion
-while True:
-    user_input = input("\u0001 [User]: ")
-    user_input_en = GoogleTranslator(source='es', target='en').translate(user_input)
-
-    print('\n')
-
-    # keyword de escape
-    if user_input.lower() == 'exit':
-        print("Exiting the conversation.")
-        break
-
-    # obtiene respuesta de acuerdo de acuerdo a si usa o no contexto previo
-    if first_question:
-        model_answer = query_to_model(user_input, rol, memory=6)
-        first_question = False
-    else:
-        model_answer = query_to_model(user_input, rol, context=model_answer, memory=6)
-
-    # traducir al español la respuesta
-    model_answer_es = translate_except_code(model_answer, 'en', 'es')
-
-    print("\u0001 [Model]:", model_answer_es, '\n')
+start_genexus_model()
 ```
 
-La ejecución de esta celda dara lugar inmediatamente debajo a un dialogo interactivo con el modelo experto en Genexus que permitira
-al usuario ingresar consultas en español sobre Genexus.
+Ejemplo de conversación recortada entre un usuario y el modelo.
+
+```
+>>> [Usuario]: Es posible usar una formula find en la definicion de un data provider…
+
+>>> [Modelo]: Sí, es posible utilizar una fórmula de búsqueda en la definición…
+
+>>> [Usuario]: Si pongo esta formula de busqueda en un procedimiento…
+
+>>> [Modelo]: No, la fórmula de búsqueda proporcionada recupera solo las líneas…
+
+>>> [Usuario]: Esta bien que no retorne una coleccion de pedidos, ya que…
+
+>>> [Modelo]: Sí, puede utilizar una fórmula de búsqueda en la definición de…
+```
+
