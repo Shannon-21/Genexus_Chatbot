@@ -21,8 +21,11 @@
 - Andrea Leon Cavallo
 - Ariel D'Alessandro
 
-**Link a Google Colab**: 
-- [https://colab.research.google.com/drive/1lpm_vQsMMsVcRcXwM6rprbxXDDlaFszO#scrollTo=5Dq3FE-9IlTr](https://colab.research.google.com/drive/1lpm_vQsMMsVcRcXwM6rprbxXDDlaFszO#scrollTo=_cCagmvEfkJ-)
+**Acceso**: 
+- *Colab*: [https://colab.research.google.com/drive/1lpm_vQsMMsVcRcXwM6rprbxXDDlaFszO#scrollTo=5Dq3FE-9IlTr](https://colab.research.google.com/drive/1lpm_vQsMMsVcRcXwM6rprbxXDDlaFszO#scrollTo=_cCagmvEfkJ-)
+- *Documento*:[https://docs.google.com/document/d/1eknZhk3JdW7vd83pa7GRfzGugkBjukmEVaIyEwrM31s/edit?usp=sharing](https://docs.google.com/document/d/1eknZhk3JdW7vd83pa7GRfzGugkBjukmEVaIyEwrM31s/edit?usp=sharing)
+
+  
 
 ---
 
